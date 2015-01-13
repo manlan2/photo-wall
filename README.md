@@ -1,4 +1,8 @@
 # AVOSPhotoWall Swift版本
+
+![wall](https://cloud.githubusercontent.com/assets/5022872/5719710/d9e120d4-9b55-11e4-9677-01b461b24b23.png)
+
+
 ###### 这个项目是为了帮助使用AVOSCloud的开发者, 用Swift开发怎么调用SDK。
 
 ## 前提
