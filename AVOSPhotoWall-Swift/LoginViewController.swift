@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
         self.passwordTextField!.placeholder = "Your password"
         self.passwordTextField!.text = ""
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         button.frame = CGRectMake(0, 0, 218, 37);
         button.center = CGPointMake(self.view.frame.size.width/2, 120);
         button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
         label.sizeToFit()
         self.view.addSubview(label)
         
-        button = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        button = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         button.frame = CGRectMake(188, 148, 81, 37);
         button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
         button.setTitle("Sign Up", forState: UIControlState.Normal)
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
                 //Something bad has ocurred
 //                var userInfo:Dictionary! = error.userInfo as Dictionary!
                 var errorString:NSString = error.description as NSString
-                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: nil, cancelButtonTitle: "OK")
+                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
                 errorAlertView.show()
             }
             })

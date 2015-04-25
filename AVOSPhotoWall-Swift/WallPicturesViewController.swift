@@ -13,7 +13,7 @@ class WallPicturesViewController: UIViewController {
     var wallObjectsArray:NSArray?
     var activityIndicator:UIActivityIndicatorView?
     
-    override init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -32,7 +32,7 @@ class WallPicturesViewController: UIViewController {
         
         self.title = "Wall"
         self.view.backgroundColor = RGB(50, 50, 50)
-        self.wallScroll = self.view as UIScrollView
+        self.wallScroll = self.view as! UIScrollView
         self.activityIndicator = UIActivityIndicatorView()
         
         var item:UIBarButtonItem = UIBarButtonItem(title: "Upload", style: UIBarButtonItemStyle.Plain, target: self, action: "goUpload:")
@@ -85,13 +85,13 @@ class WallPicturesViewController: UIViewController {
         var originY:CGFloat = 10;
         
         for  var i:Int = 0; i < self.wallObjectsArray?.count; ++i {
-            var wallObject:AVObject = self.wallObjectsArray?.objectAtIndex(i) as AVObject
+            var wallObject:AVObject = self.wallObjectsArray?.objectAtIndex(i) as! AVObject
             
             //Build the view with the image and the comments
             var wallImageView:UIView = UIView(frame: CGRectMake(10, originY, self.view.frame.size.width - 20, 300))
             
             //Add the image
-            var image:AVFile = wallObject.objectForKey(KEY_IMAGE) as AVFile
+            var image:AVFile = wallObject.objectForKey(KEY_IMAGE) as! AVFile
             var userImage:UIImageView = UIImageView(image: UIImage(data: image.getData()))
             userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
             userImage.contentMode = UIViewContentMode.ScaleAspectFit;
@@ -103,7 +103,7 @@ class WallPicturesViewController: UIViewController {
             df.dateFormat = "HH:mm dd/MM yyyy"
             
             var infoLabel:UILabel = UILabel(frame: CGRectMake(0, 210, wallImageView.frame.size.width,15))
-            var u:NSString = wallObject.objectForKey(KEY_USER) as NSString
+            var u:NSString = wallObject.objectForKey(KEY_USER) as! NSString
             var d:String = df.stringFromDate(creationDate)
             infoLabel.text = "Uploaded by: \(u), \(d)"
             infoLabel.font = UIFont(name: "Arial-ItalicMT", size: 9)
@@ -113,7 +113,7 @@ class WallPicturesViewController: UIViewController {
             
             //Add the comment
             var commentLabel:UILabel = UILabel(frame: CGRectMake(0, 240, wallImageView.frame.size.width, 15))
-            commentLabel.text = wallObject.objectForKey(KEY_COMMENT) as? NSString
+            commentLabel.text = wallObject.objectForKey(KEY_COMMENT) as! String
             commentLabel.font = UIFont(name: "ArialMT", size: 13)
             commentLabel.textColor = UIColor.whiteColor()
             commentLabel.backgroundColor = UIColor.clearColor()
@@ -180,7 +180,7 @@ class WallPicturesViewController: UIViewController {
     
     func showErrorView(errorMsg:NSString) {
         
-        var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorMsg, delegate: nil, cancelButtonTitle: "OK")
+        var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorMsg as String, delegate: nil, cancelButtonTitle: "OK")
         errorAlertView.show()
     }
 }

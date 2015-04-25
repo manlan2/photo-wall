@@ -13,9 +13,8 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     var commentTextField:UITextField?
     //    var username:NSString?
     
-    override init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -54,7 +53,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         self.view.addSubview(imageView)
         self.imgToUpload = imageView
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         button.frame = CGRectMake(20, 266, 124, 37);
         button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
         button.setTitle("Select Picture", forState: UIControlState.Normal)
@@ -103,7 +102,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
 
         var pictureData:NSData = UIImagePNGRepresentation(self.imgToUpload!.image)
         
-        var file:AVFile = AVFile.fileWithName("img", data:pictureData) as AVFile
+        var file:AVFile = AVFile.fileWithName("img", data:pictureData) as! AVFile
         var s:UploadImageViewController = self
         file.saveInBackgroundWithBlock({
             succeeded, error in
@@ -153,18 +152,17 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
             })
     }
     
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
-        
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })
         //Place the image in the imageview
-        self.imgToUpload!.image = image;
+        self.imgToUpload!.image = info[UIImagePickerControllerOriginalImage] as! UIImage;
     }
     
     func showErrorView(errorMsg:NSString!) {
         if(errorMsg != nil) {
-            var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorMsg, delegate: nil, cancelButtonTitle: "OK")
+            let errorAlertView = UIAlertView(title: "Error", message: errorMsg as String, delegate: nil, cancelButtonTitle: "Ok" );
             errorAlertView.show()
         }
     }

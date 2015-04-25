@@ -10,43 +10,31 @@
 	<string>AVOSPhotoWall-Swift</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>8ACFE5037BBA7C3DB34C943CA65881B264CE6E1A</key>
-		<string>github.com:avoscloud/avoscloud-demo.git</string>
-		<key>C56E8E3043E23A7A175E97C5527406C7FCE68265</key>
-		<string>github.com:avoscloud/iOS-SDK-demos.git</string>
+		<key>23902A55B1415AEDA89131A553C9D2D388AB5286</key>
+		<string>github.com:leancloud/photo-wall.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>AVOSPhotoWall-Swift/AVOSPhotoWall-Swift.xcodeproj</string>
+	<string>AVOSPhotoWall-Swift.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>8ACFE5037BBA7C3DB34C943CA65881B264CE6E1A</key>
-		<string>../../../..</string>
-		<key>C56E8E3043E23A7A175E97C5527406C7FCE68265</key>
-		<string>../../..</string>
+		<key>23902A55B1415AEDA89131A553C9D2D388AB5286</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>github.com:avoscloud/iOS-SDK-demos.git</string>
+	<string>github.com:leancloud/photo-wall.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>C56E8E3043E23A7A175E97C5527406C7FCE68265</string>
+	<string>23902A55B1415AEDA89131A553C9D2D388AB5286</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>8ACFE5037BBA7C3DB34C943CA65881B264CE6E1A</string>
+			<string>23902A55B1415AEDA89131A553C9D2D388AB5286</string>
 			<key>IDESourceControlWCCName</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>C56E8E3043E23A7A175E97C5527406C7FCE68265</string>
-			<key>IDESourceControlWCCName</key>
-			<string>iOS</string>
+			<string>AVOSPhotoWall-Swift</string>
 		</dict>
 	</array>
 </dict>

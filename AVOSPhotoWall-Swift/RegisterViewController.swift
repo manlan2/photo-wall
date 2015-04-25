@@ -48,7 +48,7 @@ class RegisterViewController: UIViewController {
         self.passwordRegisterTextField!.placeholder = "Password"
         self.passwordRegisterTextField!.text = ""
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         button.frame = CGRectMake(0, 0, 218, 37);
         button.center = CGPointMake(self.view.frame.size.width/2, 120);
         button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
@@ -89,7 +89,7 @@ class RegisterViewController: UIViewController {
 //                var userInfo:Dictionary! = error.userInfo!
 //                var errorString:NSString = userInfo["error"] as NSString
                 var errorString:NSString = error.description as NSString
-                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: nil, cancelButtonTitle: "OK")
+                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
                 errorAlertView.show()
             }
             })

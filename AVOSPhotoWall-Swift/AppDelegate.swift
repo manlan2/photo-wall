@@ -17,8 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
 
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool{
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
         if AVOSAppID == "" || AVOSAppKey == "" {
