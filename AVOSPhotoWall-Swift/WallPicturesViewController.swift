@@ -17,13 +17,13 @@ class WallPicturesViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
         super.loadView()
-        var scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
+        let scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
         self.view = scrollView
     }
     
@@ -31,9 +31,10 @@ class WallPicturesViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Wall"
-        self.view.backgroundColor = RGB(50, 50, 50)
+        self.view.backgroundColor = RGB(50, g: 50, b: 50)
         self.wallScroll = self.view as! UIScrollView
         self.activityIndicator = UIActivityIndicatorView()
+        self.activityIndicator?.hidesWhenStopped = true
         
         var item:UIBarButtonItem = UIBarButtonItem(title: "Upload", style: UIBarButtonItemStyle.Plain, target: self, action: "goUpload:")
         self.navigationItem.rightBarButtonItem = item
@@ -52,7 +53,7 @@ class WallPicturesViewController: UIViewController {
         let subviews:[AnyObject]! = self.view.subviews
         if(subviews != nil) {
             for var i:Int = 0; i < subviews.count; ++i {
-                var viewToRemove:AnyObject = subviews[i]
+                let viewToRemove:AnyObject = subviews[i]
                 if(viewToRemove.isMemberOfClass(UIView)) {
                     viewToRemove.removeFromSuperview()
                 }
@@ -75,7 +76,7 @@ class WallPicturesViewController: UIViewController {
         let subviews:[AnyObject]! = self.view.subviews
         if(subviews != nil) {
             for var i:Int = 0; i < subviews.count; ++i {
-                var viewToRemove:AnyObject = subviews[i]
+                let viewToRemove:AnyObject = subviews[i]
                 if(viewToRemove.isMemberOfClass(UIView)) {
                     viewToRemove.removeFromSuperview()
                 }
@@ -85,26 +86,26 @@ class WallPicturesViewController: UIViewController {
         var originY:CGFloat = 10;
         
         for  var i:Int = 0; i < self.wallObjectsArray?.count; ++i {
-            var wallObject:AVObject = self.wallObjectsArray?.objectAtIndex(i) as! AVObject
+            let wallObject:AVObject = self.wallObjectsArray?.objectAtIndex(i) as! AVObject
             
             //Build the view with the image and the comments
-            var wallImageView:UIView = UIView(frame: CGRectMake(10, originY, self.view.frame.size.width - 20, 300))
+            let wallImageView:UIView = UIView(frame: CGRectMake(10, originY, self.view.frame.size.width - 20, 300))
             
             //Add the image
-            var image:AVFile = wallObject.objectForKey(KEY_IMAGE) as! AVFile
-            var userImage:UIImageView = UIImageView(image: UIImage(data: image.getData()))
+            let image:AVFile = wallObject.objectForKey(KEY_IMAGE) as! AVFile
+            let userImage:UIImageView = UIImageView(image: UIImage(data: image.getData()))
             userImage.frame = CGRectMake(0, 0, wallImageView.frame.size.width, 200);
             userImage.contentMode = UIViewContentMode.ScaleAspectFit;
             wallImageView.addSubview(userImage)
             
             //Add the info label (User and creation date)
-            var creationDate:NSDate = wallObject.createdAt
-            var df:NSDateFormatter = NSDateFormatter()
+            let creationDate:NSDate = wallObject.createdAt
+            let df:NSDateFormatter = NSDateFormatter()
             df.dateFormat = "HH:mm dd/MM yyyy"
             
-            var infoLabel:UILabel = UILabel(frame: CGRectMake(0, 210, wallImageView.frame.size.width,15))
-            var u:NSString = wallObject.objectForKey(KEY_USER) as! NSString
-            var d:String = df.stringFromDate(creationDate)
+            let infoLabel:UILabel = UILabel(frame: CGRectMake(0, 210, wallImageView.frame.size.width,15))
+            let u:NSString = wallObject.objectForKey(KEY_USER) as! NSString
+            let d:String = df.stringFromDate(creationDate)
             infoLabel.text = "Uploaded by: \(u), \(d)"
             infoLabel.font = UIFont(name: "Arial-ItalicMT", size: 9)
             infoLabel.textColor = UIColor.whiteColor()
@@ -112,7 +113,7 @@ class WallPicturesViewController: UIViewController {
             wallImageView.addSubview(infoLabel)
             
             //Add the comment
-            var commentLabel:UILabel = UILabel(frame: CGRectMake(0, 240, wallImageView.frame.size.width, 15))
+            let commentLabel:UILabel = UILabel(frame: CGRectMake(0, 240, wallImageView.frame.size.width, 15))
             commentLabel.text = wallObject.objectForKey(KEY_COMMENT) as! String
             commentLabel.font = UIFont(name: "ArialMT", size: 13)
             commentLabel.textColor = UIColor.whiteColor()
@@ -139,16 +140,26 @@ class WallPicturesViewController: UIViewController {
     //Get the list of images
     func getWallImages() {
         //Prepare the query to get all the images in descending order
-        var query:AVQuery = AVQuery(className: WALL_OBJECT)
+        let query:AVQuery = AVQuery(className: WALL_OBJECT)
         query.orderByDescending(KEY_CREATION_DATE)
+        query.limit = 20
         query.findObjectsInBackgroundWithBlock ({
             objects, error in
             if (error == nil) {
                 //Everything was correct, put the new objects and load the wall
                 self.wallObjectsArray = objects
-                
-                self.loadWallViews()
-                
+                self.view.window?.addSubview(self.activityIndicator!)
+                self.activityIndicator?.startAnimating();
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                    for wallObject in objects as! [AVObject] {
+                        let image:AVFile = wallObject[KEY_IMAGE] as! AVFile
+                        image.getData()
+                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.activityIndicator?.stopAnimating()
+                        self.loadWallViews()
+                    })
+                })
             } else {
                 //Remove the activity indicator
                 self.activityIndicator!.stopAnimating()
@@ -157,7 +168,7 @@ class WallPicturesViewController: UIViewController {
                 //Show the error
 //                var userInfo:Dictionary! = error.userInfo
 //                var errorString:NSString? = userInfo["error"] as? NSString
-                var errorString:String = error.description
+                let errorString:String = error.description
                 if error.code == 101 {
                     self.showErrorView("请上传照片。")
                 } else {
@@ -169,18 +180,20 @@ class WallPicturesViewController: UIViewController {
     }
     
     func logoutPressed(sender:AnyObject) {
-        self.navigationController!.popViewControllerAnimated(true)
+        AVUser.logOut()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.goNextController()
     }
     
     func goUpload(sender:AnyObject) {
-        var vc:UploadImageViewController = UploadImageViewController()
+        let vc:UploadImageViewController = UploadImageViewController()
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
     
     func showErrorView(errorMsg:NSString) {
         
-        var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorMsg as String, delegate: nil, cancelButtonTitle: "OK")
+        let errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorMsg as String, delegate: nil, cancelButtonTitle: "OK")
         errorAlertView.show()
     }
 }

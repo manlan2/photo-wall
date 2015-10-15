@@ -14,7 +14,7 @@ class RegisterViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        var scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
+        let scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
         self.view = scrollView
     }
     
@@ -22,7 +22,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "Sign Up"
-        self.view.backgroundColor = RGB(50, 50, 50)
+        self.view.backgroundColor = RGB(50, g: 50, b: 50)
         
         var tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "keyboardHide:")
         tapGestureRecognizer.cancelsTouchesInView = false;
@@ -48,10 +48,10 @@ class RegisterViewController: UIViewController {
         self.passwordRegisterTextField!.placeholder = "Password"
         self.passwordRegisterTextField!.text = ""
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        var button:UIButton = UIButton(type: UIButtonType.Custom)
         button.frame = CGRectMake(0, 0, 218, 37);
         button.center = CGPointMake(self.view.frame.size.width/2, 120);
-        button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
+        button.setTitleColor(RGB(0, g: 145, b: 255), forState: UIControlState.Normal)
         button.setTitle("Sign Up", forState: UIControlState.Normal)
         button.addTarget(self, action: "signUpUserPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(button)
@@ -75,21 +75,21 @@ class RegisterViewController: UIViewController {
     */
     //Login button pressed
     func signUpUserPressed(sender:AnyObject) {
-        var user:AVUser = AVUser()
+        let user:AVUser = AVUser()
         user.username = self.userRegisterTextField!.text;
         user.password = self.passwordRegisterTextField!.text;
         user.signUpInBackgroundWithBlock({
             succeeded, error in
             if (error == nil) {
                 //Open the wall
-                var vc:WallPicturesViewController = WallPicturesViewController()
+                let vc:WallPicturesViewController = WallPicturesViewController()
                 self.navigationController!.pushViewController(vc, animated: true)
             } else {
                 //Something bad has ocurred
 //                var userInfo:Dictionary! = error.userInfo!
 //                var errorString:NSString = userInfo["error"] as NSString
-                var errorString:NSString = error.description as NSString
-                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
+                let errorString:NSString = error.description as NSString
+                let errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
                 errorAlertView.show()
             }
             })

@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        var scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
+        let scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
         self.view = scrollView
     }
     
@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Log In"
-        self.view.backgroundColor = RGB(50, 50, 50)
+        self.view.backgroundColor = RGB(50, g: 50, b: 50)
         
         var tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "keyboardHide:")
         tapGestureRecognizer.cancelsTouchesInView = false;
@@ -48,10 +48,10 @@ class LoginViewController: UIViewController {
         self.passwordTextField!.placeholder = "Your password"
         self.passwordTextField!.text = ""
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        var button:UIButton = UIButton(type: UIButtonType.Custom)
         button.frame = CGRectMake(0, 0, 218, 37);
         button.center = CGPointMake(self.view.frame.size.width/2, 120);
-        button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
+        button.setTitleColor(RGB(0, g: 145, b: 255), forState: UIControlState.Normal)
         button.setTitle("Log In", forState: UIControlState.Normal)
         button.addTarget(self, action: "logInPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(button)
@@ -63,9 +63,9 @@ class LoginViewController: UIViewController {
         label.sizeToFit()
         self.view.addSubview(label)
         
-        button = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        button = UIButton(type: UIButtonType.Custom)
         button.frame = CGRectMake(188, 148, 81, 37);
-        button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
+        button.setTitleColor(RGB(0, g: 145, b: 255), forState: UIControlState.Normal)
         button.setTitle("Sign Up", forState: UIControlState.Normal)
         button.addTarget(self, action: "registerPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(button)
@@ -93,20 +93,20 @@ class LoginViewController: UIViewController {
             user, error in
             if (user != nil) {
                 //Open the wall
-                var vc:WallPicturesViewController = WallPicturesViewController()
+                let vc:WallPicturesViewController = WallPicturesViewController()
                 self.navigationController!.pushViewController(vc, animated: true)
             } else {
                 //Something bad has ocurred
 //                var userInfo:Dictionary! = error.userInfo as Dictionary!
-                var errorString:NSString = error.description as NSString
-                var errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
+                let errorString:NSString = error.description as NSString
+                let errorAlertView:UIAlertView = UIAlertView(title: "Error", message: errorString as String, delegate: nil, cancelButtonTitle: "OK")
                 errorAlertView.show()
             }
             })
     }
     
     func registerPressed(sender:AnyObject) {
-        var vc:RegisterViewController = RegisterViewController()
+        let vc:RegisterViewController = RegisterViewController()
         self.navigationController!.pushViewController(vc, animated: true)
     }
     

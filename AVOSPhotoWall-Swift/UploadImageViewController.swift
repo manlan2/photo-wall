@@ -17,13 +17,13 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
         super.loadView()
-        var scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
+        let scrollView:UIScrollView = UIScrollView(frame:super.view.frame)
         self.view = scrollView
     }
     
@@ -31,7 +31,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         super.viewDidLoad()
         
         self.title = "Upload"
-        self.view.backgroundColor = RGB(50, 50, 50)
+        self.view.backgroundColor = RGB(50, g: 50, b: 50)
         
         var item:UIBarButtonItem = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.Plain, target: self, action: "sendPressed:")
         self.navigationItem.rightBarButtonItem = item
@@ -53,9 +53,9 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         self.view.addSubview(imageView)
         self.imgToUpload = imageView
         
-        var button:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        var button:UIButton = UIButton(type: UIButtonType.Custom)
         button.frame = CGRectMake(20, 266, 124, 37);
-        button.setTitleColor(RGB(0, 145, 255), forState: UIControlState.Normal)
+        button.setTitleColor(RGB(0, g: 145, b: 255), forState: UIControlState.Normal)
         button.setTitle("Select Picture", forState: UIControlState.Normal)
         button.addTarget(self, action: "selectPicturePressed:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(button)
@@ -78,7 +78,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     */
     func selectPicturePressed(sender:AnyObject) {
         //Open a UIImagePickerController to select the picture
-        var imgPicker:UIImagePickerController = UIImagePickerController()
+        let imgPicker:UIImagePickerController = UIImagePickerController()
         imgPicker.delegate = self;
         imgPicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
         
@@ -87,39 +87,39 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     
     func sendPressed(sender:AnyObject) {
         //Upload a new picture
-        var image:UIImage? = self.imgToUpload!.image
+        let image:UIImage? = self.imgToUpload!.image
         if(image == nil) {
             return
         }
         self.commentTextField!.resignFirstResponder()
         self.navigationItem.rightBarButtonItem!.enabled = false
         //Place the loading spinner
-        var loadingSpinner:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        let loadingSpinner:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
         loadingSpinner.center = CGPointMake(self.view.frame.size.width/2.0, self.view.frame.size.height/2.0)
         loadingSpinner.startAnimating()
         self.view.addSubview(loadingSpinner)
         
 
-        var pictureData:NSData = UIImagePNGRepresentation(self.imgToUpload!.image)
+        let pictureData:NSData = UIImagePNGRepresentation(self.imgToUpload!.image!)!
         
-        var file:AVFile = AVFile.fileWithName("img", data:pictureData) as! AVFile
-        var s:UploadImageViewController = self
+        let file = AVFile(name: "img", data:pictureData)
+        let s:UploadImageViewController = self
         file.saveInBackgroundWithBlock({
             succeeded, error in
             if (succeeded){
                 
                 //Add the image to the object, and add the comments, the user, and the geolocation (fake)
-                var imageObject:AVObject = AVObject(className: WALL_OBJECT)
+                let imageObject:AVObject = AVObject(className: WALL_OBJECT)
                 imageObject.setObject(file, forKey:KEY_IMAGE)
-                var u:AVUser = AVUser.currentUser()
-                var uname:NSString = u.username
+                let u:AVUser = AVUser.currentUser()
+                let uname:NSString = u.username
                 imageObject.setObject(uname, forKey:KEY_USER)
-                var comment:String! = self.commentTextField!.text
+                let comment:String! = self.commentTextField!.text
                 if(comment != nil) {
                     imageObject.setObject(comment, forKey:KEY_COMMENT)
                 }
                 
-                var point:AVGeoPoint = AVGeoPoint(latitude:52, longitude:-4)
+                let point:AVGeoPoint = AVGeoPoint(latitude:52, longitude:-4)
                 imageObject.setObject(point, forKey:KEY_GEOLOC)
                 
                 imageObject.saveInBackgroundWithBlock({
@@ -131,7 +131,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
                     else{
 //                        var userInfo:Dictionary! = error.userInfo
 //                        var errorString:NSString? = userInfo["error"] as? NSString
-                        var errorString:NSString = error.description as NSString
+                        let errorString:NSString = error.description as NSString
                         self.showErrorView(errorString)
                     }
                     })
@@ -139,7 +139,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
             else{
 //                var userInfo:Dictionary! = error.userInfo
 //                var errorString:NSString? = userInfo["error"] as NSString
-                var errorString:NSString = error.description as NSString
+                let errorString:NSString = error.description as NSString
                 self.showErrorView(errorString)
             }
             
@@ -152,7 +152,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
             })
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })

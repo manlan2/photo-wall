@@ -27,13 +27,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AVOSCloud.setApplicationId(AVOSAppID, clientKey: AVOSAppKey)
         UINavigationBar.appearance().barStyle = UIBarStyle.Black
         UINavigationBar.appearance().translucent = true
-        
-        var vc:LoginViewController = LoginViewController()
-        var nav:UINavigationController = UINavigationController(rootViewController: vc)
-        self.window!.rootViewController = nav
         self.window!.backgroundColor = UIColor.whiteColor()
         self.window!.makeKeyAndVisible()
+        
+        goNextController()
         return true
+    }
+    
+    func goNextController() {
+        let vc: UIViewController
+        if AVUser.currentUser() != nil {
+            vc = WallPicturesViewController()
+        } else {
+            vc = LoginViewController()
+        }
+        let nav:UINavigationController = UINavigationController(rootViewController: vc)
+        self.window!.rootViewController = nav
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -59,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
-        var currentInstallation:AVInstallation = AVInstallation.currentInstallation()
+        let currentInstallation:AVInstallation = AVInstallation.currentInstallation()
         currentInstallation.setDeviceTokenFromData(deviceToken);
         currentInstallation.saveInBackground()
     }
